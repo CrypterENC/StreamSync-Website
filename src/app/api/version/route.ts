@@ -11,8 +11,8 @@ interface VersionInfo {
 
 export async function GET() {
   try {
-    // Read changelog file
-    const changelogPath = join(process.cwd(), 'CHANGELOG.md');
+    // Read changelog file from StreamSync bot directory
+    const changelogPath = join(process.cwd(), '../StreamSync/CHANGELOG.md');
     const changelogContent = await readFile(changelogPath, 'utf-8');
 
     // Parse the latest version from changelog
