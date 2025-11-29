@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 interface ChangelogEntry {
   version: string;
@@ -15,10 +16,443 @@ interface ChangelogEntry {
   status: string;
 }
 
+interface ChangelogCardProps {
+  entry: ChangelogEntry;
+  index: number;
+  isExpanded: boolean;
+  onExpand: () => void;
+  onClose: () => void;
+  expandedRef: React.RefObject<HTMLDivElement | null>;
+  getChangeIcon: (type: string) => string;
+  getChangeColor: (type: string) => string;
+}
+
+const ChangelogCard: React.FC<ChangelogCardProps> = ({
+  entry,
+  index,
+  isExpanded,
+  onExpand,
+  onClose,
+  expandedRef,
+  getChangeIcon,
+  getChangeColor,
+}) => {
+  return (
+    <>
+      {isExpanded ? (
+        <AnimatePresence>
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => onExpand()}
+          >
+            <motion.div
+              className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+              style={{
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 60px rgba(6, 182, 212, 0.3)',
+              }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              transition={{
+                duration: 0.4,
+                type: 'spring',
+                stiffness: 300,
+                damping: 30,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <motion.button
+                onClick={onClose}
+                className="absolute top-4 right-4 z-20 p-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </motion.button>
+              {/* Background glow effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-2xl"
+                animate={{
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              />
+
+              {/* Content */}
+              <motion.div
+                className="relative z-10 max-h-[calc(90vh-120px)] overflow-y-auto pr-4"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
+              >
+                <motion.div
+                  className="mb-6"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15, duration: 0.3 }}
+                >
+                  <motion.h3
+                    className="text-3xl font-bold text-white mb-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    Version {entry.version}
+                  </motion.h3>
+                  <motion.div
+                    className="flex items-center gap-3"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.25 }}
+                  >
+                    <motion.p
+                      className="text-gray-400 text-base"
+                    >
+                      {new Date(entry.releaseDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </motion.p>
+                    <motion.span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${
+                        entry.status === 'released'
+                          ? 'bg-green-500/20 text-green-400'
+                          : entry.status === 'live'
+                            ? 'bg-blue-500/20 text-blue-400'
+                            : 'bg-yellow-500/20 text-yellow-400'
+                      }`}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2, duration: 0.3 }}
+                    >
+                      {entry.status}
+                    </motion.span>
+                  </motion.div>
+                </motion.div>
+
+                <motion.h4
+                  className="text-2xl font-semibold text-white mb-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                >
+                  {entry.title}
+                </motion.h4>
+
+                {entry.description && (
+                  <motion.p
+                    className="text-gray-300 mb-6 text-base leading-relaxed"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35, duration: 0.3 }}
+                  >
+                    {entry.description}
+                  </motion.p>
+                )}
+
+                {entry.changes && entry.changes.length > 0 && (
+                  <motion.div
+                    className="space-y-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.3 }}
+                  >
+                    <motion.h5
+                      className="text-lg font-semibold text-white uppercase tracking-wide"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.45, duration: 0.3 }}
+                    >
+                      All Changes ({entry.changes.length})
+                    </motion.h5>
+                    <motion.ul
+                      className="space-y-3 max-h-96 overflow-y-auto overflow-x-hidden scrollbar-hide"
+                      style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                      }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5, duration: 0.3 }}
+                    >
+                      {entry.changes.map((change, changeIndex) => (
+                        <motion.li
+                          key={changeIndex}
+                          className="flex items-start gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+                          initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                          animate={{ opacity: 1, x: 0, scale: 1 }}
+                          transition={{
+                            delay: 0.5 + changeIndex * 0.08,
+                            duration: 0.3,
+                            type: 'spring',
+                            stiffness: 200,
+                          }}
+                          whileHover={{
+                            scale: 1.02,
+                            x: 5,
+                            transition: { duration: 0.2 },
+                          }}
+                        >
+                          <motion.span
+                            className="text-2xl mt-1 flex-shrink-0"
+                            animate={{ rotate: [0, 10, -10, 0] }}
+                            transition={{
+                              delay: 0.5 + changeIndex * 0.08,
+                              duration: 0.6,
+                              repeat: Infinity,
+                              repeatDelay: 2,
+                            }}
+                          >
+                            {getChangeIcon(change.type)}
+                          </motion.span>
+                          <motion.span
+                            className={`text-base ${getChangeColor(change.type)}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{
+                              delay: 0.55 + changeIndex * 0.08,
+                              duration: 0.3,
+                            }}
+                          >
+                            {change.description}
+                          </motion.span>
+                        </motion.li>
+                      ))}
+                    </motion.ul>
+                  </motion.div>
+                )}
+
+                {/* Footer section */}
+                <motion.div
+                  className="mt-8 pt-6 border-t border-white/10 text-center space-y-3"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7, duration: 0.3 }}
+                >
+                  <p className="text-sm text-gray-400">
+                    Experience synchronized music streaming with your Discord community. Control playback, manage queues, and enjoy seamless audio together.
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    © 2025 StreamSync. All rights reserved.
+                  </p>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+      ) : (
+        // Collapsed card view
+        <motion.div
+          className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-6 h-full overflow-hidden cursor-pointer group"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          onClick={onExpand}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: '0 20px 40px -10px rgba(6, 182, 212, 0.3)',
+            transition: { duration: 0.3 },
+          }}
+          transition={{ duration: 0.3, delay: index * 0.1 }}
+        >
+          {/* Background glow effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+            animate={{
+              opacity: 0,
+            }}
+            whileHover={{
+              opacity: 1,
+            }}
+          />
+
+          {/* Content */}
+          <motion.div
+            className="relative z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
+            <motion.div
+              className="flex items-start justify-between mb-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.3 }}
+            >
+              <div>
+                <motion.h3
+                  className="text-xl font-bold text-white mb-1"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  Version {entry.version}
+                </motion.h3>
+                <motion.p
+                  className="text-gray-400 text-sm"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.25 }}
+                >
+                  {new Date(entry.releaseDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </motion.p>
+              </div>
+              <motion.span
+                className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${
+                  entry.status === 'released'
+                    ? 'bg-green-500/20 text-green-400'
+                    : entry.status === 'live'
+                      ? 'bg-blue-500/20 text-blue-400'
+                      : 'bg-yellow-500/20 text-yellow-400'
+                }`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
+              >
+                {entry.status}
+              </motion.span>
+            </motion.div>
+
+            <motion.h4
+              className="text-lg font-semibold text-white mb-2"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
+            >
+              {entry.title}
+            </motion.h4>
+
+            {entry.description && (
+              <motion.p
+                className="text-gray-300 mb-4 line-clamp-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.35, duration: 0.3 }}
+              >
+                {entry.description}
+              </motion.p>
+            )}
+
+            {entry.changes && entry.changes.length > 0 && (
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.3 }}
+              >
+                <motion.h5
+                  className="text-sm font-semibold text-gray-400 uppercase tracking-wide"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.45, duration: 0.3 }}
+                >
+                  Changes ({entry.changes.length})
+                </motion.h5>
+                <motion.ul
+                  className="space-y-2 max-h-32 overflow-hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.3 }}
+                >
+                  {entry.changes.slice(0, 2).map((change, changeIndex) => (
+                    <motion.li
+                      key={changeIndex}
+                      className="flex items-start gap-3"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: 0.5 + changeIndex * 0.05,
+                        duration: 0.3,
+                      }}
+                      whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                    >
+                      <motion.span
+                        className="text-lg mt-1 flex-shrink-0"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{
+                          delay: 0.5 + changeIndex * 0.05,
+                          duration: 0.5,
+                          repeat: Infinity,
+                          repeatDelay: 2,
+                        }}
+                      >
+                        {getChangeIcon(change.type)}
+                      </motion.span>
+                      <span className={`text-sm ${getChangeColor(change.type)}`}>
+                        {change.description}
+                      </span>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+                {entry.changes.length > 2 && (
+                  <motion.div
+                    className="mt-3 text-center text-xs text-cyan-400 font-semibold"
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{
+                      opacity: [0.6, 1, 0.6],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                  >
+                    +{entry.changes.length - 2} more • Click to expand
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </>
+  );
+};
+
 export default function Changelog() {
   const [changelog, setChangelog] = useState<ChangelogEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const expandedRef = useRef<HTMLDivElement | null>(null);
+  
+  useOutsideClick(expandedRef as React.RefObject<HTMLDivElement>, () => setExpandedIndex(null));
 
   useEffect(() => {
     const fetchChangelog = async () => {
@@ -127,8 +561,12 @@ export default function Changelog() {
   }
 
   return (
-    <section id="changelog" className="py-16 sm:py-20 bg-black">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="changelog" className="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+
+      <div className="relative z-10 max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -144,68 +582,20 @@ export default function Changelog() {
           </p>
         </motion.div>
 
-        <div className="space-y-8">
+        {/* Changelog Container */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {changelog.map((entry, index) => (
-            <motion.div
+            <ChangelogCard
               key={entry.version}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-white/5 rounded-lg p-6 border border-white/10"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-1">
-                    Version {entry.version}
-                  </h3>
-                  <p className="text-gray-400 text-sm">
-                    {new Date(entry.releaseDate).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  entry.status === 'released'
-                    ? 'bg-green-500/20 text-green-400'
-                    : 'bg-yellow-500/20 text-yellow-400'
-                }`}>
-                  {entry.status}
-                </span>
-              </div>
-
-              <h4 className="text-lg font-semibold text-white mb-2">
-                {entry.title}
-              </h4>
-
-              {entry.description && (
-                <p className="text-gray-300 mb-4">
-                  {entry.description}
-                </p>
-              )}
-
-              {entry.changes && entry.changes.length > 0 && (
-                <div className="space-y-2">
-                  <h5 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
-                    Changes
-                  </h5>
-                  <ul className="space-y-2">
-                    {entry.changes.map((change, changeIndex) => (
-                      <li key={changeIndex} className="flex items-start gap-3">
-                        <span className="text-lg mt-1">
-                          {getChangeIcon(change.type)}
-                        </span>
-                        <span className={`text-sm ${getChangeColor(change.type)}`}>
-                          {change.description}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </motion.div>
+              entry={entry}
+              index={index}
+              isExpanded={expandedIndex === index}
+              onExpand={() => setExpandedIndex(index)}
+              onClose={() => setExpandedIndex(null)}
+              expandedRef={expandedRef}
+              getChangeIcon={getChangeIcon}
+              getChangeColor={getChangeColor}
+            />
           ))}
 
           {changelog.length === 0 && (
@@ -214,7 +604,7 @@ export default function Changelog() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center py-12"
+              className="text-center py-12 col-span-full"
             >
               <p className="text-gray-400">No changelog entries found.</p>
             </motion.div>

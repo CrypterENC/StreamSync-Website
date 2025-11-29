@@ -38,3 +38,13 @@ html::-webkit-scrollbar {
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+/* Utility class to hide scrollbars on specific elements */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

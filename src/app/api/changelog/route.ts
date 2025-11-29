@@ -1,6 +1,22 @@
 import { NextResponse } from 'next/server';
 import { Client } from 'pg';
 
+// Helper function to map category names to change types
+function mapChangeType(category: string): 'added' | 'removed' | 'updated' | 'fixed' {
+  const mapping: Record<string, 'added' | 'removed' | 'updated' | 'fixed'> = {
+    'website': 'updated',
+    'website updates': 'updated',
+    'bot': 'added',
+    'bot updates': 'added',
+    'improved': 'updated',
+    'fixed': 'fixed',
+    'added': 'added',
+    'removed': 'removed',
+    'updated': 'updated'
+  };
+  return mapping[category.toLowerCase()] || 'added';
+}
+
 export async function GET() {
   let client: Client | null = null;
 
@@ -42,14 +58,61 @@ export async function GET() {
     `);
 
     // Format the response
-    const changelog = changelogResult.rows.map(row => ({
-      version: row.version,
-      title: row.title,
-      description: row.description,
-      changes: row.changes || [],
-      releaseDate: row.release_date?.toISOString(),
-      status: row.status
-    }));
+    const changelog = changelogResult.rows.map(row => {
+      // Parse changes if it's a string (JSON), otherwise use as is
+      let parsedChanges = [];
+      if (row.changes) {
+        if (typeof row.changes === 'string') {
+          try {
+            const changesData = JSON.parse(row.changes);
+            // Handle both array format and object format
+            if (Array.isArray(changesData)) {
+              parsedChanges = changesData;
+            } else if (typeof changesData === 'object') {
+              // If it's an object with categories (website, bot, improved, fixed)
+              // Convert to flat array with type information
+              parsedChanges = [];
+              Object.entries(changesData).forEach(([type, items]: [string, any]) => {
+                if (Array.isArray(items)) {
+                  items.forEach((item: string) => {
+                    parsedChanges.push({
+                      type: mapChangeType(type),
+                      description: item
+                    });
+                  });
+                }
+              });
+            }
+          } catch (e) {
+            console.error('Error parsing changes JSON:', e);
+            parsedChanges = [];
+          }
+        } else if (Array.isArray(row.changes)) {
+          parsedChanges = row.changes;
+        } else if (typeof row.changes === 'object') {
+          // Handle object format directly
+          Object.entries(row.changes).forEach(([type, items]: [string, any]) => {
+            if (Array.isArray(items)) {
+              items.forEach((item: string) => {
+                parsedChanges.push({
+                  type: mapChangeType(type),
+                  description: item
+                });
+              });
+            }
+          });
+        }
+      }
+
+      return {
+        version: row.version,
+        title: row.title,
+        description: row.description,
+        changes: parsedChanges,
+        releaseDate: row.release_date?.toISOString(),
+        status: row.status
+      };
+    });
 
     return NextResponse.json({
       changelog,

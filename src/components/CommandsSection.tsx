@@ -124,27 +124,36 @@ export default function CommandsSection() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="group relative bg-black/30 border border-white/10 rounded-xl p-6 hover:border-cyan-500/30 transition-all duration-300"
+                  className="group relative bg-black/30 border border-white/10 rounded-xl p-6 hover:border-cyan-500/30 transition-all duration-300 overflow-hidden"
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <Zap className="text-cyan-400" size={16} />
-                        <code className="text-cyan-300 font-mono text-lg bg-cyan-500/10 px-3 py-1 rounded">
-                          {command.cmd}
-                        </code>
-                      </div>
-                      <p className="text-gray-400 leading-relaxed">
-                        {command.desc}
-                      </p>
+                  {/* Glowing border effect */}
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 rounded-xl p-0.5 bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-pink-500/50 animate-pulse">
+                      <div className="w-full h-full bg-black/30 rounded-lg" />
                     </div>
-                    <button
-                      onClick={() => copyToClipboard(command.cmd)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 rounded-lg hover:bg-cyan-500/10 text-cyan-400 hover:text-cyan-300"
-                      title="Copy command"
-                    >
-                      <Copy size={16} />
-                    </button>
+                  </div>
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Zap className="text-cyan-400" size={16} />
+                          <code className="text-cyan-300 font-mono text-lg bg-cyan-500/10 px-3 py-1 rounded">
+                            {command.cmd}
+                          </code>
+                        </div>
+                        <p className="text-gray-400 leading-relaxed">
+                          {command.desc}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => copyToClipboard(command.cmd)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 rounded-lg hover:bg-cyan-500/10 text-cyan-400 hover:text-cyan-300"
+                        title="Copy command"
+                      >
+                        <Copy size={16} />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Copy feedback */}
@@ -153,7 +162,7 @@ export default function CommandsSection() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
-                      className="absolute top-2 right-2 bg-cyan-500 text-black px-2 py-1 rounded text-sm font-medium"
+                      className="absolute top-2 right-2 bg-cyan-500 text-black px-2 py-1 rounded text-sm font-medium z-20"
                     >
                       Copied!
                     </motion.div>
@@ -174,12 +183,9 @@ export default function CommandsSection() {
             <p className="text-gray-400 mb-4">
               Need more help? Use <code className="text-cyan-300 bg-cyan-500/10 px-2 py-1 rounded">/help</code> in Discord for detailed instructions
             </p>
-            <p className="text-gray-500 text-sm mb-4">
+            <p className="text-gray-500 text-sm">
               The player interface appears automatically when music starts playing!
             </p>
-            <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300">
-              View Full Documentation
-            </button>
           </motion.div>
         </motion.div>
       </div>
