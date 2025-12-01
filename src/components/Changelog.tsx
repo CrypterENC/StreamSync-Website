@@ -347,17 +347,7 @@ export default function Changelog() {
                     </svg>
                   </motion.button>
                   {/* Background glow effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-2xl"
-                    animate={{
-                      opacity: [0.5, 0.8, 0.5],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-2xl" />
 
                   {/* Content */}
                   <motion.div
@@ -368,40 +358,23 @@ export default function Changelog() {
                     }}
                     onWheel={(e) => e.stopPropagation()}
                     onTouchMove={(e) => e.stopPropagation()}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1, duration: 0.3 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
                   >
-                    <motion.div
-                      className="mb-6"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.15, duration: 0.3 }}
-                    >
-                      <motion.h3
-                        className="text-3xl font-bold text-white mb-2"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                      >
+                    <div className="mb-6">
+                      <h3 className="text-3xl font-bold text-white mb-2">
                         Version {changelog[expandedIndex].version}
-                      </motion.h3>
-                      <motion.div
-                        className="flex items-center gap-3"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.25 }}
-                      >
-                        <motion.p
-                          className="text-gray-400 text-base"
-                        >
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        <p className="text-gray-400 text-base">
                           {new Date(changelog[expandedIndex].releaseDate).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric',
                           })}
-                        </motion.p>
-                        <motion.span
+                        </p>
+                        <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${
                             changelog[expandedIndex].status === 'released'
                               ? 'bg-green-500/20 text-green-400'
@@ -409,51 +382,28 @@ export default function Changelog() {
                                 ? 'bg-blue-500/20 text-blue-400'
                                 : 'bg-yellow-500/20 text-yellow-400'
                           }`}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 0.2, duration: 0.3 }}
                         >
                           {changelog[expandedIndex].status}
-                        </motion.span>
-                      </motion.div>
-                    </motion.div>
+                        </span>
+                      </div>
+                    </div>
 
-                    <motion.h4
-                      className="text-2xl font-semibold text-white mb-4"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3, duration: 0.3 }}
-                    >
+                    <h4 className="text-2xl font-semibold text-white mb-4">
                       {changelog[expandedIndex].title}
-                    </motion.h4>
+                    </h4>
 
                     {changelog[expandedIndex].description && (
-                      <motion.p
-                        className="text-gray-300 mb-6 text-base leading-relaxed"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.35, duration: 0.3 }}
-                      >
+                      <p className="text-gray-300 mb-6 text-base leading-relaxed">
                         {changelog[expandedIndex].description}
-                      </motion.p>
+                      </p>
                     )}
 
                     {changelog[expandedIndex].changes && changelog[expandedIndex].changes.length > 0 && (
-                      <motion.div
-                        className="space-y-4"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4, duration: 0.3 }}
-                      >
-                        <motion.h5
-                          className="text-lg font-semibold text-white uppercase tracking-wide"
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.45, duration: 0.3 }}
-                        >
+                      <div className="space-y-4">
+                        <h5 className="text-lg font-semibold text-white uppercase tracking-wide">
                           All Changes ({changelog[expandedIndex].changes.length})
-                        </motion.h5>
-                        <motion.ul
+                        </h5>
+                        <ul
                           className="space-y-3 max-h-96 overflow-y-auto overflow-x-hidden scrollbar-hide"
                           style={{
                             scrollbarWidth: 'none',
@@ -461,71 +411,33 @@ export default function Changelog() {
                           }}
                           onWheel={(e) => e.stopPropagation()}
                           onTouchMove={(e) => e.stopPropagation()}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.5, duration: 0.3 }}
                         >
                           {changelog[expandedIndex].changes.map((change, changeIndex) => (
-                            <motion.li
+                            <li
                               key={changeIndex}
                               className="flex items-start gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-                              initial={{ opacity: 0, x: -30, scale: 0.9 }}
-                              animate={{ opacity: 1, x: 0, scale: 1 }}
-                              transition={{
-                                delay: 0.5 + changeIndex * 0.08,
-                                duration: 0.3,
-                                type: 'spring',
-                                stiffness: 200,
-                              }}
-                              whileHover={{
-                                scale: 1.02,
-                                x: 5,
-                                transition: { duration: 0.2 },
-                              }}
                             >
-                              <motion.span
-                                className="text-2xl mt-1 flex-shrink-0"
-                                animate={{ rotate: [0, 10, -10, 0] }}
-                                transition={{
-                                  delay: 0.5 + changeIndex * 0.08,
-                                  duration: 0.6,
-                                  repeat: Infinity,
-                                  repeatDelay: 2,
-                                }}
-                              >
+                              <span className="text-2xl mt-1 flex-shrink-0">
                                 {getChangeIcon(change.type)}
-                              </motion.span>
-                              <motion.span
-                                className={`text-base ${getChangeColor(change.type)}`}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{
-                                  delay: 0.55 + changeIndex * 0.08,
-                                  duration: 0.3,
-                                }}
-                              >
+                              </span>
+                              <span className={`text-base ${getChangeColor(change.type)}`}>
                                 {change.description}
-                              </motion.span>
-                            </motion.li>
+                              </span>
+                            </li>
                           ))}
-                        </motion.ul>
-                      </motion.div>
+                        </ul>
+                      </div>
                     )}
 
                     {/* Footer section */}
-                    <motion.div
-                      className="mt-8 pt-6 border-t border-white/10 text-center space-y-3"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.7, duration: 0.3 }}
-                    >
+                    <div className="mt-8 pt-6 border-t border-white/10 text-center space-y-3">
                       <p className="text-sm text-gray-400">
                         Experience synchronized music streaming with your Discord community. Control playback, manage queues, and enjoy seamless audio together.
                       </p>
                       <p className="text-xs text-gray-500">
                         © 2025 StreamSync. All rights reserved.
                       </p>
-                    </motion.div>
+                    </div>
                   </motion.div>
                 </motion.div>
               </motion.div>

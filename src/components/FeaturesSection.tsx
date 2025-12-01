@@ -207,7 +207,7 @@ export default function FeaturesSection() {
         >
           <p className="text-gray-400 mb-6">Ready to experience crystal-clear music?</p>
           <a 
-            href="https://discord.com/oauth2/authorize?client_id=1437365534831153226&permissions=36767760&integration_type=0&scope=bot"
+            href="https://discord.com/oauth2/authorize?client_id=1437365534831153226&permissions=281475013487632&integration_type=0&scope=applications.commands+bot"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-8 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300"

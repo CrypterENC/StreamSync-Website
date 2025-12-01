@@ -30,9 +30,11 @@ export default function Footer() {
           >
             {/* Logo and Brand */}
             <div className="flex items-center justify-center gap-2 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                <span className="text-white font-bold text-xl">S</span>
-              </div>
+              <img 
+                src="/bot_pfp.ico" 
+                alt="StreamSync Logo" 
+                className="w-12 h-12 rounded-lg"
+              />
               <span className="text-white font-bold text-3xl">StreamSync</span>
             </div>
 

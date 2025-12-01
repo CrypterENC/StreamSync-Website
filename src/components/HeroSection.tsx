@@ -168,7 +168,7 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
             <a 
-              href="https://discord.com/oauth2/authorize?client_id=1437365534831153226&permissions=36767760&integration_type=0&scope=bot"
+              href="https://discord.com/oauth2/authorize?client_id=1437365534831153226&permissions=281475013487632&integration_type=0&scope=applications.commands+bot"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative px-8 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50"
