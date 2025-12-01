@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readFile } from 'fs/promises';
-import { join } from 'path';
+import { Client } from 'pg';
 
 interface VersionInfo {
   version: string;
@@ -10,41 +9,52 @@ interface VersionInfo {
 }
 
 export async function GET() {
+  let client: Client | null = null;
+
   try {
-    // Read changelog file from StreamSync bot directory
-    const changelogPath = join(process.cwd(), '../StreamSync/CHANGELOG.md');
-    const changelogContent = await readFile(changelogPath, 'utf-8');
-
-    // Parse the latest version from changelog
-    const lines = changelogContent.split('\n');
-    let latestVersion: VersionInfo | null = null;
-
-    for (const line of lines) {
-      // Match version header pattern: ## [1.1.0] - 2024-11-28
-      const versionMatch = line.match(/^## \[([0-9.]+)\] - (\d{4}-\d{2}-\d{2})/);
-      
-      if (versionMatch) {
-        const [, version, date] = versionMatch;
-        
-        // Determine status based on version number
-        let status: 'live' | 'beta' | 'development' = 'live';
-        if (version.includes('beta') || version.includes('b')) {
-          status = 'beta';
-        } else if (version.includes('alpha') || version.includes('a') || version.includes('0.')) {
-          status = 'development';
-        }
-
-        latestVersion = {
-          version,
-          status,
-          releaseDate: date
-        };
-        break; // Get the first (latest) version
-      }
+    // Check if database URL is configured
+    if (!process.env.NEON_DATABASE_URL) {
+      console.error('NEON_DATABASE_URL environment variable not configured');
+      return NextResponse.json({
+        version: {
+          version: '1.1.0',
+          status: 'live' as const,
+          releaseDate: new Date().toISOString().split('T')[0]
+        },
+        status: 'fallback'
+      });
     }
 
-    // Fallback if no version found
-    if (!latestVersion) {
+    // Create a database client with connection timeout
+    client = new Client({
+      connectionString: process.env.NEON_DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      connectionTimeoutMillis: 10000, // 10 second timeout
+      query_timeout: 10000, // 10 second query timeout
+    });
+
+    await client.connect();
+
+    // Query the latest version from changelog table
+    const result = await client.query(`
+      SELECT version, status, release_date, title
+      FROM changelog
+      ORDER BY release_date DESC
+      LIMIT 1
+    `);
+
+    let latestVersion: VersionInfo;
+
+    if (result.rows.length > 0) {
+      const row = result.rows[0];
+      latestVersion = {
+        version: row.version,
+        status: row.status || 'live',
+        releaseDate: row.release_date?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0],
+        title: row.title
+      };
+    } else {
+      // Fallback if no version found in database
       latestVersion = {
         version: '1.1.0',
         status: 'live',
@@ -57,9 +67,27 @@ export async function GET() {
       status: 'success'
     });
 
-  } catch (error) {
-    console.error('Error reading version from changelog:', error);
-    
+  } catch (error: any) {
+    console.error('Error fetching version from database:', error);
+
+    // Provide more specific error messages
+    let errorMessage = 'Failed to fetch version';
+    let statusCode = 500;
+
+    if (error.code === 'ECONNREFUSED') {
+      errorMessage = 'Database connection refused';
+      statusCode = 503;
+    } else if (error.code === '42P01') {
+      errorMessage = 'Changelog table not found - database may need initialization';
+      statusCode = 503;
+    } else if (error.message?.includes('timeout')) {
+      errorMessage = 'Database query timeout';
+      statusCode = 504;
+    } else if (error.message?.includes('authentication')) {
+      errorMessage = 'Database authentication failed';
+      statusCode = 500;
+    }
+
     // Fallback response
     return NextResponse.json({
       version: {
@@ -67,7 +95,17 @@ export async function GET() {
         status: 'live' as const,
         releaseDate: new Date().toISOString().split('T')[0]
       },
-      status: 'fallback'
+      status: 'fallback',
+      error: errorMessage
     });
+  } finally {
+    // Ensure client is always closed
+    if (client) {
+      try {
+        await client.end();
+      } catch (closeError) {
+        console.error('Error closing database client:', closeError);
+      }
+    }
   }
 }
