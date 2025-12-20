@@ -45,8 +45,8 @@ export async function GET() {
     });
 
     // Extract individual metrics with fallbacks
-    const serverCount = analytics.server_count?.value || 0;
-    const songsPlayed = analytics.songs_played?.value || 0;
+    const serverCount = Number(analytics.server_count?.value) || 0;
+    const songsPlayed = Number(analytics.songs_played?.value) || 0;
 
     return NextResponse.json({
       serverCount,
