@@ -54,15 +54,15 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-12 sm:mb-16 lg:mb-20 px-4"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
             Powerful Features
             <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               for Music Lovers
             </span>
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
             Experience premium music playback with advanced features designed for Discord communities.
           </p>
         </motion.div>
@@ -100,42 +100,42 @@ export default function FeaturesSection() {
                     </span>
                   </h2>
                   
-                  <div className="text-xl text-gray-300 leading-relaxed mb-8 space-y-4">
+                  <div className="text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed mb-6 sm:mb-8 space-y-3 sm:space-y-4">
                     <p>
                       Premium audio quality for everyone.
                     </p>
-                    <p className="text-lg text-gray-400">
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-400">
                       No paywalls, no restrictions, just crystal-clear music.
                     </p>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-2xl p-6 mb-8">
-                    <div className="flex items-center gap-2 mb-3">
+                  <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
                       <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-                      <span className="text-yellow-300 font-semibold text-sm uppercase tracking-wider">Limited Time Offer</span>
+                      <span className="text-yellow-300 font-semibold text-xs sm:text-sm uppercase tracking-wider">Limited Time Offer</span>
                       <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
                     </div>
-                    <p className="text-white text-lg mb-2">
+                    <p className="text-white text-base sm:text-lg mb-2">
                       Get Premium Features <span className="text-yellow-400 font-bold">100% FREE</span> - Forever!
                     </p>
-                    <p className="text-gray-300 text-sm">
+                    <p className="text-gray-300 text-xs sm:text-sm">
                       Premium services coming soon at the lowest prices in the market. 
                       Early users like you get lifetime access to all current features - completely free.
                     </p>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                    <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
+                  <div className="flex flex-col gap-2 sm:gap-3 mb-6 sm:mb-8">
+                    <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
                       <div className="w-2 h-2 bg-purple-400 rounded-full" />
-                      <span className="text-purple-300 font-medium">Opus Codec 10/10 Quality</span>
+                      <span className="text-purple-300 font-medium text-xs sm:text-sm">Opus Codec 10/10 Quality</span>
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
+                    <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
                       <div className="w-2 h-2 bg-purple-400 rounded-full" />
-                      <span className="text-purple-300 font-medium">400ms Ultra-Low Latency</span>
+                      <span className="text-purple-300 font-medium text-xs sm:text-sm">400ms Ultra-Low Latency</span>
                     </div>
-                    <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
+                    <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-purple-500/20 rounded-lg border border-purple-500/30">
                       <div className="w-2 h-2 bg-purple-400 rounded-full" />
-                      <span className="text-purple-300 font-medium">Lifetime Access</span>
+                      <span className="text-purple-300 font-medium text-xs sm:text-sm">Lifetime Access</span>
                     </div>
                   </div>
                   
@@ -167,7 +167,7 @@ export default function FeaturesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-purple-500/50 transition-all duration-300 overflow-hidden"
+                className="group relative bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 lg:p-8 hover:border-purple-500/50 transition-all duration-300 overflow-hidden"
               >
                 {/* Hover gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -175,17 +175,17 @@ export default function FeaturesSection() {
                 {/* Content */}
                 <div className="relative z-10">
                   {/* Icon */}
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white mb-2 sm:mb-3">
                     {feature.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>

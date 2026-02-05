@@ -33,9 +33,9 @@ export default function Footer() {
               <img 
                 src="/bot_pfp.ico" 
                 alt="StreamSync Logo" 
-                className="w-12 h-12 rounded-lg"
+                className="w-10 sm:w-12 h-10 sm:h-12 rounded-lg"
               />
-              <span className="text-white font-bold text-3xl">StreamSync</span>
+              <span className="text-white font-bold text-xl sm:text-3xl">StreamSync</span>
             </div>
 
             {/* Description */}

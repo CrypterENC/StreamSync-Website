@@ -179,7 +179,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight"
+            className="text-3xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
           >
             StreamSync
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -192,7 +192,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed"
+            className="text-sm sm:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2"
           >
             Premium Discord music bot with crystal-clear audio and advanced playlist management.
             Built on Discord.js, Lavalink, and cutting-edge metadata extraction libraries.
@@ -203,17 +203,17 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 px-2"
           >
             <a 
               href="https://discord.com/oauth2/authorize?client_id=1437365534831153226&permissions=281475013487632&integration_type=0&scope=applications.commands+bot"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative px-8 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50"
+              className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50 text-sm sm:text-base"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center justify-center gap-2">
                 Add to Discord
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </a>
@@ -225,9 +225,9 @@ export default function HeroSection() {
                   commandsSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="px-8 py-4 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-all duration-300 flex items-center gap-2 backdrop-blur-sm"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-sm text-sm sm:text-base"
             >
-              <Play className="w-5 h-5" />
+              <Play className="w-4 sm:w-5 h-4 sm:h-5" />
               View Commands
             </button>
           </motion.div>
@@ -237,29 +237,29 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 md:gap-6 max-w-4xl mx-auto px-2"
           >
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
+              <div className="text-lg sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
                 &lt;500ms
               </div>
               <p className="text-xs text-gray-400 mt-1">Ultra-Low Latency</p>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
+              <div className="text-lg sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text">
                 99.9%
               </div>
               <p className="text-xs text-gray-400 mt-1">Uptime</p>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-transparent bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text flex items-center justify-center gap-2">
+              <div className="text-lg sm:text-2xl md:text-3xl font-bold text-transparent bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text flex items-center justify-center gap-1 sm:gap-2">
                 {isLoading ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-pink-400/30 border-t-pink-400 rounded-full animate-spin"></div>
-                    <span className="text-sm">Loading...</span>
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-pink-400/30 border-t-pink-400 rounded-full animate-spin"></div>
+                    <span className="text-xs sm:text-sm">Loading...</span>
                   </>
                 ) : error ? (
-                  <span className="text-sm text-gray-500">N/A</span>
+                  <span className="text-xs sm:text-sm text-gray-500">N/A</span>
                 ) : (
                   serverCount.toLocaleString()
                 )}
@@ -269,14 +269,14 @@ export default function HeroSection() {
               </p>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-1 sm:gap-2">
                 {isLoading ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-pink-400/30 border-t-pink-400 rounded-full animate-spin"></div>
-                    <span className="text-sm text-gray-400">Loading...</span>
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-pink-400/30 border-t-pink-400 rounded-full animate-spin"></div>
+                    <span className="text-xs sm:text-sm text-gray-400">Loading...</span>
                   </>
                 ) : error ? (
-                  <span className="text-sm text-gray-500">N/A</span>
+                  <span className="text-xs sm:text-sm text-gray-500">N/A</span>
                 ) : (
                   <ColorfulText>{songsPlayed.toLocaleString()}</ColorfulText>
                 )}

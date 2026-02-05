@@ -78,24 +78,24 @@ export default function FloatingNav() {
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-red-500/20 rounded-full blur-xl" />
 
-            <div className="relative bg-black/60 backdrop-blur-2xl border border-cyan-500/30 rounded-full px-6 py-3 shadow-2xl shadow-cyan-500/20">
+            <div className="relative bg-black/60 backdrop-blur-2xl border border-cyan-500/30 rounded-full px-3 sm:px-6 py-2 sm:py-3 shadow-2xl shadow-cyan-500/20">
               {/* Animated border */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-red-500/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
-              <div className="flex items-center gap-2 relative">
-                {/* Logo */}
-                <div className="flex items-center gap-2 pr-4 border-r border-cyan-500/30">
+              <div className="flex items-center gap-1 sm:gap-2 relative">
+                {/* Logo - Hidden on mobile */}
+                <div className="hidden sm:flex items-center gap-2 pr-4 border-r border-cyan-500/30">
                   <div className="relative">
-                    <Music className="text-cyan-400 animate-pulse" size={24} />
+                    <Music className="text-cyan-400 animate-pulse" size={20} />
                     <div className="absolute inset-0 text-cyan-400 blur-md opacity-50">
-                      <Music size={24} />
+                      <Music size={20} />
                     </div>
                   </div>
-                  <span className="text-white font-bold text-lg tracking-wider text-glow">STREAMSYNC</span>
+                  <span className="text-white font-bold text-sm tracking-wider text-glow">STREAMSYNC</span>
                 </div>
 
                 {/* Nav Items */}
-                <div className="flex items-center gap-1 pl-2">
+                <div className="flex items-center gap-0.5 sm:gap-1 pl-0 sm:pl-2">
                   {navItems.map((item, index) => (
                     <motion.button
                       key={item.id}
@@ -127,9 +127,9 @@ export default function FloatingNav() {
                         backgroundColor: { duration: 0.2 },
                         color: { duration: 0.2 }
                       }}
-                      className="relative px-4 py-2 rounded-full group overflow-hidden"
+                      className="relative px-2 sm:px-4 py-1.5 sm:py-2 rounded-full group overflow-hidden"
                     >
-                      <div className="flex items-center gap-2 relative z-10">
+                      <div className="flex items-center gap-1 sm:gap-2 relative z-10">
                         <motion.div
                           animate={{
                             scale: activeSection === item.id ? 1.1 : 1,
@@ -156,7 +156,7 @@ export default function FloatingNav() {
                             width: { duration: 0.3 },
                             marginLeft: { duration: 0.3 }
                           }}
-                          className="text-sm font-medium whitespace-nowrap overflow-hidden"
+                          className="hidden sm:inline text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden"
                         >
                           {item.label}
                         </motion.span>

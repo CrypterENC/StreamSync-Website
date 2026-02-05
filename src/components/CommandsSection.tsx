@@ -64,15 +64,15 @@ export default function CommandsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-12 sm:mb-16 lg:mb-20 px-4"
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
             Bot Commands
             <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Made Simple
             </span>
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-400 max-w-2xl mx-auto">
             Powerful commands designed for an intuitive music experience in your Discord server.
           </p>
         </motion.div>
@@ -83,24 +83,24 @@ export default function CommandsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl border border-white/10 rounded-2xl p-8 sm:p-12 overflow-hidden"
+          className="bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-8 lg:p-12 overflow-hidden"
         >
           {/* Tab Navigation */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
             {commandCategories.map((category) => {
               const Icon = category.icon;
               return (
                 <button
                   key={category.id}
                   onClick={() => setActiveTab(category.id)}
-                  className={`relative px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${
+                  className={`relative px-3 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-300 flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${
                     activeTab === category.id
                       ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-cyan-400 border border-cyan-500/30'
                       : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
                   }`}
                 >
-                  <Icon size={20} />
-                  <span className="font-medium">{category.label}</span>
+                  <Icon size={16} className="sm:w-5 sm:h-5" />
+                  <span className="font-medium hidden sm:inline">{category.label}</span>
                   {activeTab === category.id && (
                     <div className="absolute inset-0 rounded-lg bg-cyan-500/10 animate-pulse" />
                   )}
@@ -124,7 +124,7 @@ export default function CommandsSection() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="group relative bg-black/30 border border-white/10 rounded-xl p-6 hover:border-cyan-500/30 transition-all duration-300 overflow-hidden"
+                  className="group relative bg-black/30 border border-white/10 rounded-xl p-3 sm:p-6 hover:border-cyan-500/30 transition-all duration-300 overflow-hidden"
                 >
                   {/* Glowing border effect */}
                   <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
@@ -134,24 +134,24 @@ export default function CommandsSection() {
                   </div>
                   {/* Content */}
                   <div className="relative z-10">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <Zap className="text-cyan-400" size={16} />
-                          <code className="text-cyan-300 font-mono text-lg bg-cyan-500/10 px-3 py-1 rounded">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2 flex-wrap">
+                          <Zap className="text-cyan-400 flex-shrink-0" size={14} />
+                          <code className="text-cyan-300 font-mono text-xs sm:text-lg bg-cyan-500/10 px-2 sm:px-3 py-0.5 sm:py-1 rounded break-all">
                             {command.cmd}
                           </code>
                         </div>
-                        <p className="text-gray-400 leading-relaxed">
+                        <p className="text-gray-400 leading-relaxed text-xs sm:text-sm">
                           {command.desc}
                         </p>
                       </div>
                       <button
                         onClick={() => copyToClipboard(command.cmd)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 rounded-lg hover:bg-cyan-500/10 text-cyan-400 hover:text-cyan-300"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1.5 sm:p-2 rounded-lg hover:bg-cyan-500/10 text-cyan-400 hover:text-cyan-300 flex-shrink-0"
                         title="Copy command"
                       >
-                        <Copy size={16} />
+                        <Copy size={14} className="sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   </div>

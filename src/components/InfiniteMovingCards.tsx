@@ -106,11 +106,11 @@ export const InfiniteMovingCards = ({
         {items.map((item) => (
           <li
             key={item.id}
-            className="w-[350px] max-w-full relative rounded-2xl border border-gray-700/50 px-8 py-6 md:w-[450px] bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300"
+            className="w-[280px] sm:w-[350px] md:w-[450px] max-w-full relative rounded-2xl border border-gray-700/50 px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300"
           >
             <blockquote>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center overflow-hidden">
+              <div className="flex items-center gap-2 sm:gap-4 mb-3 sm:mb-4">
+                <div className="flex-shrink-0 w-12 sm:w-16 h-12 sm:h-16 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center overflow-hidden">
                   {item.iconURL ? (
                     <img
                       src={item.iconURL}
@@ -118,14 +118,14 @@ export const InfiniteMovingCards = ({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-8 h-8 bg-blue-400/30 rounded" />
+                    <div className="w-6 sm:w-8 h-6 sm:h-8 bg-blue-400/30 rounded" />
                   )}
                 </div>
-                <div className="flex-1">
-                  <p className="text-white font-semibold text-lg line-clamp-2">
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-semibold text-xs sm:text-lg line-clamp-2">
                     {item.name}
                   </p>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-400 text-xs sm:text-sm">
                     {item.memberCount.toLocaleString()} members
                   </p>
                 </div>
