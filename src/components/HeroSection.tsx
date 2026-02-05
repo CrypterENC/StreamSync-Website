@@ -4,6 +4,7 @@ import { ArrowRight, Play, Users, Server } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { InfiniteMovingCards } from './InfiniteMovingCards';
+import { ColorfulText } from './ColorfulText';
 
 interface ServerData {
   id: string;
@@ -268,16 +269,16 @@ export default function HeroSection() {
               </p>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 {isLoading ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-blue-400/30 border-t-blue-400 rounded-full animate-spin"></div>
-                    <span className="text-sm">Loading...</span>
+                    <div className="w-4 h-4 border-2 border-pink-400/30 border-t-pink-400 rounded-full animate-spin"></div>
+                    <span className="text-sm text-gray-400">Loading...</span>
                   </>
                 ) : error ? (
                   <span className="text-sm text-gray-500">N/A</span>
                 ) : (
-                  songsPlayed.toLocaleString()
+                  <ColorfulText>{songsPlayed.toLocaleString()}</ColorfulText>
                 )}
               </div>
               <p className="text-xs text-gray-400 mt-1">
