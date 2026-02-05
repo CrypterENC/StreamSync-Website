@@ -45,8 +45,13 @@ export async function GET() {
     });
 
     // Extract individual metrics with fallbacks
-    const serverCount = Number(analytics.server_count?.value) || 0;
+    let serverCount = Number(analytics.server_count?.value) || 0;
     const songsPlayed = Number(analytics.songs_played?.value) || 0;
+    
+    // Subtract 1 for filtered Backdoor University server
+    if (serverCount > 0) {
+      serverCount -= 1;
+    }
 
     return NextResponse.json({
       serverCount,

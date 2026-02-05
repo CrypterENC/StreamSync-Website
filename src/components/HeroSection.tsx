@@ -1,8 +1,16 @@
 'use client';
 
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Users, Server } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { InfiniteMovingCards } from './InfiniteMovingCards';
+
+interface ServerData {
+  id: string;
+  name: string;
+  memberCount: number;
+  iconURL?: string;
+}
 
 export default function HeroSection() {
   const [serverCount, setServerCount] = useState(0);
@@ -12,6 +20,7 @@ export default function HeroSection() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [servers, setServers] = useState<ServerData[]>([]);
 
   // Fetch version data
   useEffect(() => {
@@ -32,6 +41,34 @@ export default function HeroSection() {
     };
 
     fetchVersion();
+  }, []);
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch('/api/servers', {
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = await response.json();
+          setServers(data.servers || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch servers:', error);
+        setServers([]);
+      }
+    };
+
+    fetchServers();
   }, []);
 
   useEffect(() => {
@@ -248,6 +285,29 @@ export default function HeroSection() {
               </p>
             </div>
           </motion.div>
+
+          {/* Server List - Infinite Moving Cards */}
+          {servers.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="mt-12 pt-12 border-t border-white/10"
+            >
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-300 mb-8 flex items-center justify-center gap-2">
+                <span className="text-blue-400">Trusted by</span>
+                <span className="text-white font-bold">{servers.length}</span>
+                <span className="text-blue-400">Servers</span>
+              </h3>
+              <InfiniteMovingCards
+                items={servers}
+                direction="left"
+                speed="slow"
+                pauseOnHover={true}
+                className="w-full"
+              />
+            </motion.div>
+          )}
         </div>
       </div>
 
