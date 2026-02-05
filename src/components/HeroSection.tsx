@@ -300,7 +300,7 @@ export default function HeroSection() {
                 <span className="text-white font-bold">{servers.length}</span>
                 <span className="text-blue-400">Servers</span>
               </h3>
-              <div className="px-2 sm:px-8 md:px-[8rem] lg:px-16 xl:px-20 w-full">
+              <div className="px-2 sm:px-8 md:px-[3.4rem] lg:px-[2rem] xl:px-[0.4rem] w-full">
                 <InfiniteMovingCards
                   items={servers}
                   direction="left"
