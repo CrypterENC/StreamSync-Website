@@ -241,7 +241,7 @@ export default function Changelog() {
   }
 
   return (
-    <section id="changelog" className="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden">
+    <section id="changelog" className="relative py-12 sm:py-20 lg:py-32 px-4 sm:px-6 lg:px-8 bg-black overflow-hidden">
       {/* Background elements */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />

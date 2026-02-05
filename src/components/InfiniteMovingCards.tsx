@@ -79,7 +79,7 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        'scroller relative z-20 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]',
+        'scroller relative z-20 w-full overflow-hidden',
         className
       )}
     >
@@ -101,16 +101,16 @@ export const InfiniteMovingCards = ({
       `}</style>
       <ul
         ref={scrollerRef}
-        className="flex w-max min-w-full shrink-0 gap-10 py-4 flex-nowrap"
+        className="flex w-max min-w-full shrink-0 gap-6 sm:gap-8 md:gap-10 py-2 sm:py-3 flex-nowrap"
       >
         {items.map((item) => (
           <li
             key={item.id}
-            className="w-[280px] sm:w-[350px] md:w-[450px] max-w-full relative rounded-2xl border border-gray-700/50 px-4 sm:px-6 md:px-8 py-4 sm:py-6 bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300"
+            className="w-[150px] xs:w-[170px] sm:w-[190px] md:w-[210px] lg:w-[380px] xl:w-[480px] max-w-full relative rounded-2xl border border-gray-700/50 px-1 xs:px-1.5 sm:px-2 lg:px-4 xl:px-6 py-1 xs:py-1.5 sm:py-2 lg:py-4 xl:py-6 bg-transparent hover:border-purple-500/50 transition-all duration-300"
           >
             <blockquote>
-              <div className="flex items-center gap-2 sm:gap-4 mb-3 sm:mb-4">
-                <div className="flex-shrink-0 w-12 sm:w-16 h-12 sm:h-16 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center overflow-hidden">
+              <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4 mb-1.5 xs:mb-2 sm:mb-3">
+                <div className="flex-shrink-0 w-8 xs:w-10 sm:w-12 md:w-14 h-8 xs:h-10 sm:h-12 md:h-14 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 flex items-center justify-center overflow-hidden">
                   {item.iconURL ? (
                     <img
                       src={item.iconURL}
@@ -118,14 +118,14 @@ export const InfiniteMovingCards = ({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-6 sm:w-8 h-6 sm:h-8 bg-blue-400/30 rounded" />
+                    <div className="w-4 xs:w-5 sm:w-6 md:w-7 h-4 xs:h-5 sm:h-6 md:h-7 bg-blue-400/30 rounded" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold text-xs sm:text-lg line-clamp-2">
+                  <p className="text-white font-semibold text-xs xs:text-sm sm:text-base line-clamp-2">
                     {item.name}
                   </p>
-                  <p className="text-gray-400 text-xs sm:text-sm">
+                  <p className="text-gray-400 text-xs">
                     {item.memberCount.toLocaleString()} members
                   </p>
                 </div>

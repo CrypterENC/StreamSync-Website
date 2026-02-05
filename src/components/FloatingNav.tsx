@@ -25,14 +25,13 @@ export default function FloatingNav() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Check if navbar should be visible (scrolled past halfway through hero section)
+      // Check if navbar should be visible (scrolled past entire hero section)
       const heroSection = document.getElementById('home');
       if (heroSection) {
         const heroHeight = heroSection.offsetHeight;
-        const heroHalfway = heroHeight / 2;
         const scrollPosition = window.scrollY;
 
-        setIsVisible(scrollPosition > heroHalfway);
+        setIsVisible(scrollPosition > heroHeight);
       }
 
       // Update active section for navigation highlighting
@@ -72,7 +71,7 @@ export default function FloatingNav() {
             duration: 0.4,
             ease: [0.25, 0.46, 0.45, 0.94] // Custom easing for smooth animation
           }}
-          className="fixed top-8 left-1/2 -translate-x-1/2 z-50"
+          className="hidden lg:block fixed top-8 left-1/2 -translate-x-1/2 z-50"
         >
           <div className="relative">
             {/* Glow effect */}
