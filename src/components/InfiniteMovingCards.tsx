@@ -106,7 +106,7 @@ export const InfiniteMovingCards = ({
         {items.map((item) => (
           <li
             key={item.id}
-            className="w-[150px] xs:w-[170px] sm:w-[190px] md:w-[210px] lg:w-[380px] xl:w-[480px] max-w-full relative rounded-2xl border border-gray-700/50 px-1 xs:px-1.5 sm:px-2 lg:px-4 xl:px-6 py-1 xs:py-1.5 sm:py-2 lg:py-4 xl:py-6 bg-transparent hover:border-purple-500/50 transition-all duration-300"
+            className="w-[150px] xs:w-[170px] sm:w-[190px] md:w-[210px] lg:w-[380px] xl:w-[480px] max-w-full relative rounded-2xl border border-gray-700/50 px-1 xs:px-1.5 sm:px-2 lg:px-4 xl:px-6 py-1 xs:py-1.5 sm:py-2 lg:py-4 xl:py-6 bg-gray-800/30 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300"
           >
             <blockquote>
               <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4 mb-1.5 xs:mb-2 sm:mb-3">
