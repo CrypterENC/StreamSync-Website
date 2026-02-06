@@ -146,14 +146,14 @@ export default function HeroSection() {
     fetchServerCount();
   }, []);
   return (
-    <section id="home" className="relative min-h-screen w-full overflow-x-hidden bg-black">
+    <section id="home" className="relative min-h-screen min-[425px]:min-h-[60vh] sm:min-h-[90vh] lg:min-h-[calc(100vh+1rem)] w-full overflow-x-hidden bg-black">
       {/* Animated background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 blur-3xl" />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse" />
 
       {/* Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 w-full">
+      <div className="relative z-10 flex items-center justify-center min-h-screen min-[425px]:min-h-[105vh] sm:min-h-[100vh] lg:min-h-[calc(100vh+1rem)] px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-4xl mx-auto text-center w-full">
           {/* Badge */}
           <motion.div
@@ -194,7 +194,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xs xs:text-sm sm:text-lg lg:text-xl text-gray-300 mb-3 sm:mb-6 max-w-2xl mx-auto leading-relaxed px-2 sm:px-3"
           >
-            Premium Discord music bot with crystal-clear audio and advanced playlist management.
+            Free Discord music bot with premium-quality audio and advanced playlist management.
             Built on Discord.js, Lavalink, and cutting-edge metadata extraction libraries.
           </motion.p>
 
